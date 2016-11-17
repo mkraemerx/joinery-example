@@ -42,7 +42,7 @@ public class Application {
     private static void processPlatforms(DataFrame<Object> platforms, DataFrame<Object> stations) {
 
 //        Integer[] pCols = {0, 2};
-        DataFrame<Object> p = platforms.retain(0, 4).groupBy(0).sum();
+        DataFrame<Object> p = platforms.retain(0, 4).groupBy(0).max();
         System.out.println(p);
         DataFrame<Object> s = stations.reindex(2, false);
         System.out.println(s);
