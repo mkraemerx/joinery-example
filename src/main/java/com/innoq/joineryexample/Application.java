@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Observable;
 
 public class Application {
 
@@ -19,12 +20,15 @@ public class Application {
         }
         System.out.println("starting with file - " + fileName);
 
-        if (fileName != null) {
-            try {
-                tryToRead(fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            DataFrame<Object> platforms = readPlatformData();
+            System.out.println("platforms: "+ platforms.types());
+            DataFrame<Object> stations = readStationData();
+            System.out.println("stations: "+ stations.types());
+            processPlatforms(platforms, stations);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -35,7 +39,32 @@ public class Application {
         }
     }
 
-    private static void tryToRead(String fileName) throws IOException {
+    private static void processPlatforms(DataFrame<Object> platforms, DataFrame<Object> stations) {
+
+//        Integer[] pCols = {0, 2};
+        DataFrame<Object> p = platforms.retain(0, 4).groupBy(0).sum();
+        System.out.println(p);
+        DataFrame<Object> s = stations.reindex(2, false);
+        System.out.println(s);
+        System.out.println("trying");
+
+        DataFrame<Object> dataFrame = p.join(s);
+        System.out.print(dataFrame);
+    }
+
+    private static DataFrame<Object> readStationData() throws IOException {
+        String url = "http://download-data.deutschebahn.com/static/datasets/stationsdaten/DBSuS-Uebersicht_Bahnhoefe-Stand2016-07.csv";
+        DataFrame<Object> stations = DataFrame.readCsv(url, ";");
+        return stations;
+    }
+
+    private static DataFrame<Object> readPlatformData() throws IOException {
+        String url = "http://download-data.deutschebahn.com/static/datasets/bahnsteig/DBSuS-Bahnsteigdaten-Stand2016-03.csv";
+        DataFrame<Object> platforms = DataFrame.readCsv(url, ";");
+        return platforms;
+    }
+
+    private static void tryToReadLocal(String fileName) throws IOException {
         Long s1 = new Date().getTime();
         DataFrame<Object> df = DataFrame.readCsv(fileName)
                 .retain("COUNTYNAME", "STATE")
