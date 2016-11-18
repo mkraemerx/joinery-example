@@ -56,7 +56,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.innoq.joineryexample.Application</mainClass>
+                                    <mainClass>com.innoq.joineryexample.JoinApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
