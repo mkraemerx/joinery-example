@@ -42,7 +42,7 @@ public class HistogramApplication {
         histData.rename("Nettobaulänge (m)", "Anzahl");
         histData.plot(DataFrame.PlotType.BAR);
 
-        System.out.println("histData: " + histData);
+        System.out.println("histData: \n" + histData);
 
     }
 
