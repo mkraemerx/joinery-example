@@ -18,13 +18,6 @@ public class JoinApplication {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            System.out.println("Enter to exit");
-            buf.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private static DataFrame<Object> findLongestPlatformStations(DataFrame<Object> platforms, DataFrame<Object> stations) {
